@@ -39,7 +39,7 @@ config :fair_dinkum, FairDinkumWeb.Endpoint,
   live_view: [signing_salt: "0QEzbdMk"]
 
 config :fair_dinkum,
-  ash_domains: [FairDinkum.Game]
+  ash_domains: [FairDinkum.Players, FairDinkum.Game]
 
 config :fair_dinkum,
   ecto_repos: [FairDinkum.Repo],

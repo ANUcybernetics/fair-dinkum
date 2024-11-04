@@ -1,7 +1,7 @@
-defmodule FairDinkum.Game.Player do
+defmodule FairDinkum.Players.Player do
   @moduledoc false
   use Ash.Resource,
-    domain: FairDinkum.Game,
+    domain: FairDinkum.Players,
     data_layer: AshSqlite.DataLayer
 
   sqlite do
