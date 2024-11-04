@@ -34,9 +34,18 @@ defmodule FairDinkum.Game.Player do
       argument :value, :term
 
       change fn changeset, _context ->
-        Ash.Changeset.change_attribute(changeset, :state, fn state ->
-          Map.put(state, Ash.Changeset.get_argument(changeset, :key), Ash.Changeset.get_argument(changeset, :value))
-        end)
+        new_state =
+          Map.put(
+            changeset.data.state,
+            Ash.Changeset.get_argument(changeset, :key),
+            Ash.Changeset.get_argument(changeset, :value)
+          )
+
+        Ash.Changeset.force_change_attribute(
+          changeset,
+          :state,
+          new_state
+        )
       end
     end
   end
