@@ -58,7 +58,11 @@ defmodule FairDinkum.MixProject do
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
-      {:bandit, "~> 1.5"}
+      {:bandit, "~> 1.5"},
+      {:ash, "~> 3.4"},
+      {:ash_sqlite, "~> 0.2"},
+      {:ash_phoenix, "~> 2.1"},
+      {:styler, "~> 1.1", only: [:dev, :test], runtime: false}
     ]
   end
 

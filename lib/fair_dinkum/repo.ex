@@ -1,5 +1,3 @@
 defmodule FairDinkum.Repo do
-  use Ecto.Repo,
-    otp_app: :fair_dinkum,
-    adapter: Ecto.Adapters.SQLite3
+  use AshSqlite.Repo, otp_app: :fair_dinkum
 end
