@@ -10,15 +10,13 @@ defmodule FairDinkum.Application do
     children = [
       FairDinkumWeb.Telemetry,
       FairDinkum.Repo,
-      {Ecto.Migrator,
-        repos: Application.fetch_env!(:fair_dinkum, :ecto_repos),
-        skip: skip_migrations?()},
+      {Ecto.Migrator, repos: Application.fetch_env!(:fair_dinkum, :ecto_repos), skip: skip_migrations?()},
       {DNSCluster, query: Application.get_env(:fair_dinkum, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: FairDinkum.PubSub},
       # Start the Finch HTTP client for sending emails
       {Finch, name: FairDinkum.Finch},
       # Start a worker by calling: FairDinkum.Worker.start_link(arg)
-      # {FairDinkum.Worker, arg},
+      # {FairDinkum.Game.Server, server_name: :group_1, rules: FairDinkum.Game.TwentyQs},
       # Start to serve requests, typically the last entry
       FairDinkumWeb.Endpoint
     ]
@@ -37,7 +35,7 @@ defmodule FairDinkum.Application do
     :ok
   end
 
-  defp skip_migrations?() do
+  defp skip_migrations? do
     # By default, sqlite migrations are run when using a release
     System.get_env("RELEASE_NAME") != nil
   end
