@@ -59,11 +59,13 @@ defmodule FairDinkum.Game.Server do
   @impl true
   @spec init(opts :: Keyword.t()) :: {:ok, server_state()} | {:stop, term()}
   def init(opts) do
-    rules = Keyword.fetch!(opts, :rules)
-    server_name = Keyword.fetch!(opts, :server_name)
-
-    # no players or interactions at game startup
-    {:ok, %{players: [], pending_interactions: %{}, rules: rules, server_name: server_name}}
+    with {:ok, rules} <- Keyword.fetch(opts, :rules),
+         {:ok, server_name} <- Keyword.fetch(opts, :server_name) do
+      # no players or interactions at game startup
+      {:ok, %{players: [], pending_interactions: %{}, rules: rules, server_name: server_name}}
+    else
+      :error -> {:stop, "missing required options: :rules, :server_name"}
+    end
   end
 
   @impl true
