@@ -30,6 +30,11 @@ defmodule FairDinkum.Game.Server do
           optional(:game_state) => Rules.game_state()
         }
 
+  def start_link(opts) do
+    server_name = Keyword.fetch!(opts, :server_name)
+    GenServer.start_link(__MODULE__, opts, name: server_name)
+  end
+
   # Client
   def current_state(server_name) do
     GenServer.call(server_name, :current_state)
@@ -56,13 +61,6 @@ defmodule FairDinkum.Game.Server do
   def init(opts) do
     rules = Keyword.fetch!(opts, :rules)
     server_name = Keyword.fetch!(opts, :server_name)
-
-    # Presence.track(
-    #   self(),
-    #   "server:#{server_name}",
-    #   socket.id,
-    #   %{}
-    # )
 
     # no players or interactions at game startup
     {:ok, %{players: [], pending_interactions: %{}, rules: rules, server_name: server_name}}

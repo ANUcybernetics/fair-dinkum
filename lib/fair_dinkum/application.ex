@@ -13,13 +13,12 @@ defmodule FairDinkum.Application do
       {Ecto.Migrator, repos: Application.fetch_env!(:fair_dinkum, :ecto_repos), skip: skip_migrations?()},
       {DNSCluster, query: Application.get_env(:fair_dinkum, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: FairDinkum.PubSub},
+      FairDinkum.Presence,
+      FairDinkum.GameSupervisor,
       # Start the Finch HTTP client for sending emails
       {Finch, name: FairDinkum.Finch},
-      # Start a worker by calling: FairDinkum.Worker.start_link(arg)
-      # {FairDinkum.Game.Server, server_name: :group_1, rules: FairDinkum.Game.TwentyQs},
       # Start to serve requests, typically the last entry
-      FairDinkumWeb.Endpoint,
-      FairDinkum.Presence
+      FairDinkumWeb.Endpoint
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
