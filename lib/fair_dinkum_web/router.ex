@@ -19,6 +19,13 @@ defmodule FairDinkumWeb.Router do
 
     live "/", LobbyLive, :index
     live "/server/:server_name", GameLive, :index
+
+    live "/players", PlayerLive.Index, :index
+    live "/players/new", PlayerLive.Index, :new
+    live "/players/:id/edit", PlayerLive.Index, :edit
+
+    live "/players/:id", PlayerLive.Show, :show
+    live "/players/:id/show/edit", PlayerLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.
