@@ -24,20 +24,11 @@ defmodule FairDinkum.Game.Rules do
 
   @type game_state() :: %{
           required(:server_name) => atom(),
-          required(:players) => list(%Player{}),
           required(:progress) => any(),
           optional(atom()) => any()
         }
 
-  @callback init(server_name :: atom()) ::
-              {:ok, state :: game_state()}
-              | {:error, reason :: term()}
-
-  @callback add_player(state :: game_state(), player :: Player.t()) ::
-              {:ok, state :: game_state()}
-              | {:error, reason :: term()}
-
-  @callback remove_player(state :: game_state(), player :: Player.t()) ::
+  @callback init(server_name :: atom(), players :: list(Player.t())) ::
               {:ok, state :: game_state()}
               | {:error, reason :: term()}
 
@@ -45,7 +36,9 @@ defmodule FairDinkum.Game.Rules do
               {:ok, state :: game_state()}
               | {:error, reason :: term()}
 
-  @callback add_bot(state :: game_state(), opts :: map()) ::
+  @callback advance(state :: game_state(), response :: map()) ::
               {:ok, state :: game_state()}
               | {:error, reason :: term()}
+
+  @callback info() :: %{required(:name) => String.t(), optional(:description) => String.t()}
 end

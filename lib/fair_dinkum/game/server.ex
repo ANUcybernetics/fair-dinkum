@@ -16,6 +16,13 @@ defmodule FairDinkum.Game.Server do
   use GenServer
 
   alias FairDinkum.Game.Rules
+  alias FairDinkum.Players.Player
+
+  @type server_state() :: %{
+          required(:state) => Rules.game_state(),
+          required(:players) => list(%Player{}),
+          required(:awaiting_responses) => list()
+        }
 
   # Client
   def current_state(server_name) do
