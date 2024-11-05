@@ -10,17 +10,22 @@ defmodule FairDinkum.Game.Rules do
 
   - `:server_name` - the name of the server (a GenServer which will manage the specific game)
   - `:players` - a list of player structs
-  - `:progress` - a tuple representing the current state of the game
+  - `:progress` - tuple representing the current state of the game (type & value is game-dependent)
 
   The game state can also contain any additional keys (because this behaviour is designed
   to be extended for the rules/state required by a specific game).
 
+  This behaviour also defines add_player/2, remove_player/2 and add_bot/2 callbacks for
+  adding and removing players (because how they are added to the game state is also game-dependent)
+
   """
+
+  alias FairDinkum.Players.Player
 
   @type game_state() :: %{
           required(:server_name) => atom(),
-          required(:players) => list(%FairDinkum.Players.Player{}),
-          required(:progress) => tuple(),
+          required(:players) => list(%Player{}),
+          required(:progress) => any(),
           optional(atom()) => any()
         }
 
@@ -28,11 +33,11 @@ defmodule FairDinkum.Game.Rules do
               {:ok, state :: game_state()}
               | {:error, reason :: term()}
 
-  @callback add_player(id :: any()) ::
+  @callback add_player(state :: game_state(), player :: Player.t()) ::
               {:ok, state :: game_state()}
               | {:error, reason :: term()}
 
-  @callback remove_player(id :: any()) ::
+  @callback remove_player(state :: game_state(), player :: Player.t()) ::
               {:ok, state :: game_state()}
               | {:error, reason :: term()}
 
@@ -40,7 +45,7 @@ defmodule FairDinkum.Game.Rules do
               {:ok, state :: game_state()}
               | {:error, reason :: term()}
 
-  @callback add_bot(opts :: map()) ::
+  @callback add_bot(state :: game_state(), opts :: map()) ::
               {:ok, state :: game_state()}
               | {:error, reason :: term()}
 end
