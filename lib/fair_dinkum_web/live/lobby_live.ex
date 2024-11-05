@@ -4,10 +4,6 @@ defmodule FairDinkumWeb.LobbyLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    # if connected?(socket) do
-    #   {:ok, _} = FairDinkum.Presence.track(self(), "lobby", :rand.uniform(1000), %{name: "Barry"})
-    # end
-
     {:ok, assign(socket, page_title: "Game Lobby")}
   end
 
