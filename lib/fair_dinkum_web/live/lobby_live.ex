@@ -1,4 +1,4 @@
-defmodule FairDinkumWeb.GameLive do
+defmodule FairDinkumWeb.LobbyLive do
   @moduledoc false
   use FairDinkumWeb, :live_view
 
