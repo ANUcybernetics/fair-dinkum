@@ -23,6 +23,7 @@ defmodule FairDinkum.Players.Player do
 
     create :create do
       accept [:name, :type]
+      primary? true
     end
 
     update :change_name do
