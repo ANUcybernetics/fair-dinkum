@@ -40,6 +40,10 @@ defmodule FairDinkum.Game.Server do
     GenServer.call(server_name, :current_state)
   end
 
+  def game_info(server_name) do
+    GenServer.call(server_name, :game_info)
+  end
+
   def send_to_player(_server_name, player_id, interaction) do
     IO.puts("TODO: sending interaction to player #{player_id}: #{inspect(interaction)}")
     :ok
@@ -92,6 +96,11 @@ defmodule FairDinkum.Game.Server do
   @impl true
   def handle_call(:current_state, _from, state) do
     {:reply, state, state}
+  end
+
+  @impl true
+  def handle_call(:game_info, _from, state) do
+    {:reply, state.rules.info(), state}
   end
 
   @impl true
