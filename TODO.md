@@ -7,6 +7,12 @@
 - saladUI components
 - host on fly.io
 
+- should the server maintain a list of players, and pass them on init (then we
+  don't have to re-implement the waiting behaviour for each game)
+- maybe don't have the context metadata in the resource, because it's really
+  only useful in-game (and serialising the game state to disk is a "later"
+  problem)
+
 ## other games
 
 - taboo
