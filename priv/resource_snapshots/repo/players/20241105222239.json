@@ -29,20 +29,10 @@
       "primary_key?": false,
       "allow_nil?": true,
       "generated?": false
-    },
-    {
-      "default": "%{}",
-      "size": null,
-      "type": "map",
-      "source": "state",
-      "references": null,
-      "primary_key?": false,
-      "allow_nil?": true,
-      "generated?": false
     }
   ],
   "table": "players",
-  "hash": "0DB7BFB39F49C600EE906BA8E53989158DB3507C16F8829990A19746F4DCB3AE",
+  "hash": "F06B47FA7D0CE6BF98AC6B6BC74F22BFACBBF3262D3D2ED16436DDA342F2ED39",
   "repo": "Elixir.FairDinkum.Repo",
   "identities": [],
   "custom_indexes": [],

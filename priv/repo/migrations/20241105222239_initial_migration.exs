@@ -9,7 +9,6 @@ defmodule FairDinkum.Repo.Migrations.InitialMigration do
 
   def up do
     create table(:players, primary_key: false) do
-      add :state, :map, default: %{}
       add :type, :text
       add :name, :text
       add :id, :bigserial, null: false, primary_key: true

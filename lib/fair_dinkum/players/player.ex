@@ -12,10 +12,7 @@ defmodule FairDinkum.Players.Player do
   attributes do
     integer_primary_key :id
     attribute :name, :string
-    attribute :type, :atom
-
-    # keys of this map must be atoms
-    attribute :state, :map, default: %{}
+    attribute :type, :atom, default: :human
   end
 
   actions do
@@ -28,26 +25,6 @@ defmodule FairDinkum.Players.Player do
 
     update :change_name do
       accept [:name]
-    end
-
-    update :put_state do
-      argument :key, :atom
-      argument :value, :term
-
-      change fn changeset, _context ->
-        new_state =
-          Map.put(
-            changeset.data.state,
-            Ash.Changeset.get_argument(changeset, :key),
-            Ash.Changeset.get_argument(changeset, :value)
-          )
-
-        Ash.Changeset.force_change_attribute(
-          changeset,
-          :state,
-          new_state
-        )
-      end
     end
   end
 end
