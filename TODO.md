@@ -2,14 +2,14 @@
 
 ## essential for Thursday workshop
 
-- add an ash form for creating a user (if you haven't already)
-- add the AI player
 - store player id in localStorage
+- add the AI player
 - write slides (or notes, at least) for the workshop
 - host on fly.io
 
 ## for later on
 
+- remove all dead views
 - have a proper registy, start the game servers dynamically
 - saladUI components
 - maybe don't have the context metadata in the resource, because it's really
