@@ -18,7 +18,8 @@ defmodule FairDinkum.Application do
       # Start a worker by calling: FairDinkum.Worker.start_link(arg)
       # {FairDinkum.Game.Server, server_name: :group_1, rules: FairDinkum.Game.TwentyQs},
       # Start to serve requests, typically the last entry
-      FairDinkumWeb.Endpoint
+      FairDinkumWeb.Endpoint,
+      FairDinkum.Presence
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

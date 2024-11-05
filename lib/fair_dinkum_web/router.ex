@@ -17,7 +17,7 @@ defmodule FairDinkumWeb.Router do
   scope "/", FairDinkumWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    live "/", GameLive, :index
   end
 
   # Other scopes may use custom stacks.

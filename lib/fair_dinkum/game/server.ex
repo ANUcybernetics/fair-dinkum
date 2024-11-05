@@ -15,13 +15,19 @@ defmodule FairDinkum.Game.Server do
 
   use GenServer
 
+  alias FairDinkum.Game.Interaction
   alias FairDinkum.Game.Rules
   alias FairDinkum.Players.Player
+  # alias Phoenix.Presence
+
+  require Logger
 
   @type server_state() :: %{
-          required(:state) => Rules.game_state(),
-          required(:players) => list(%Player{}),
-          required(:awaiting_responses) => list()
+          required(:rules) => module(),
+          required(:players) => list(Player.t()),
+          required(:pending_interactions) => %{integer() => Interaction.t()},
+          # optional because on startup there's no game state yet
+          optional(:game_state) => Rules.game_state()
         }
 
   # Client
@@ -29,35 +35,77 @@ defmodule FairDinkum.Game.Server do
     GenServer.call(server_name, :current_state)
   end
 
+  def send_to_player(_server_name, player_id, interaction) do
+    IO.puts("TODO: sending interaction to player #{player_id}: #{inspect(interaction)}")
+    :ok
+  end
+
+  def send_to_all(_server_name, interaction) do
+    IO.puts("TODO: sending interaction to all players: #{inspect(interaction)}")
+    :ok
+  end
+
+  def send(server_name, interaction) do
+    IO.puts("TODO: sending interaction to server #{server_name}: #{inspect(interaction)}")
+    :ok
+  end
+
   # Server
   @impl true
-  @spec init(rules: module(), server_name: atom()) :: {:ok, Rules.game_state()} | {:stop, term()}
+  @spec init(opts :: Keyword.t()) :: {:ok, server_state()} | {:stop, term()}
   def init(opts) do
     rules = Keyword.fetch!(opts, :rules)
     server_name = Keyword.fetch!(opts, :server_name)
 
-    case rules.init(server_name) do
-      {:ok, initial_state} ->
-        {:ok, initial_state}
+    # Presence.track(
+    #   self(),
+    #   "server:#{server_name}",
+    #   socket.id,
+    #   %{}
+    # )
 
-      {:error, reason} ->
-        {:stop, reason}
-    end
+    # no players or interactions at game startup
+    {:ok, %{players: [], pending_interactions: %{}, rules: rules, server_name: server_name}}
   end
 
   @impl true
-  def handle_call({:response_received, response}, _from, state) do
-    case state.rules.advance(state, response) do
-      {:ok, new_state} ->
-        {:reply, :ok, new_state}
+  def handle_call({:response_received, interaction}, _from, state) do
+    {:noreply,
+     %{
+       state
+       | game_state: advance_game_state!(state, interaction),
+         pending_interactions: Map.delete(state.pending_interactions, interaction.player)
+     }}
+  end
 
-      {:error, reason} ->
-        {:reply, {:error, reason}, state}
-    end
+  @impl true
+  def handle_call({:player_joined, player}, _from, state) do
+    {:noreply, %{state | players: List.insert_at(state.players, -1, player)}}
+  end
+
+  @impl true
+  def handle_call({:player_left, player}, _from, state) do
+    Logger.warning("Player #{player.id} left the game... not handling this yet")
+    {:noreply, %{state | players: Enum.reject(state.players, &(&1.id == player.id))}}
   end
 
   @impl true
   def handle_call(:current_state, _from, state) do
     {:reply, state, state}
+  end
+
+  @impl true
+  def handle_continue(_continue_arg, state) do
+    {:noreply, advance_game_state!(state)}
+  end
+
+  defp advance_game_state!(state) do
+    {:ok, next_game_state} = state.rules.advance(state.game_state)
+    next_game_state
+  end
+
+  defp advance_game_state!(state, interaction) do
+    {:ok, next_game_state} = state.rules.advance(state.game_state, interaction)
+    next_game_state
   end
 end

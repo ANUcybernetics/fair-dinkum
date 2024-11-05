@@ -4,10 +4,11 @@ defmodule FairDinkum.Game.Interaction do
 
   TODO better docs
   """
-  defstruct [:player, :call, :response]
+  defstruct [:caller_id, :responder_id, :call, :response]
 
   @type t :: %__MODULE__{
-          player: FairDinkum.Players.Player.t(),
+          caller_id: integer(),
+          responder_id: integer(),
           call: {:text, String.t()} | {:select, String.t(), list(String.t())} | {:error, term()},
           response: String.t()
         }
