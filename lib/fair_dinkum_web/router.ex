@@ -14,18 +14,20 @@ defmodule FairDinkumWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", FairDinkumWeb do
-    pipe_through :browser
+  live_session :default, on_mount: FairDinkumWeb.FetchPlayerID do
+    scope "/", FairDinkumWeb do
+      pipe_through :browser
 
-    live "/", LobbyLive, :index
-    live "/server/:server_name", GameLive, :index
+      live "/", LobbyLive, :index
+      live "/server/:server_name", GameLive, :index
 
-    live "/players", PlayerLive.Index, :index
-    live "/players/new", PlayerLive.Index, :new
-    live "/players/:id/edit", PlayerLive.Index, :edit
+      live "/players", PlayerLive.Index, :index
+      live "/players/new", PlayerLive.Index, :new
+      live "/players/:id/edit", PlayerLive.Index, :edit
 
-    live "/players/:id", PlayerLive.Show, :show
-    live "/players/:id/show/edit", PlayerLive.Show, :edit
+      live "/players/:id", PlayerLive.Show, :show
+      live "/players/:id/show/edit", PlayerLive.Show, :edit
+    end
   end
 
   # Other scopes may use custom stacks.

@@ -84,6 +84,9 @@ defmodule FairDinkumWeb.PlayerLive.Index do
 
   @impl true
   def handle_info({FairDinkumWeb.PlayerLive.FormComponent, {:saved, player}}, socket) do
-    {:noreply, stream_insert(socket, :players, player)}
+    {:noreply,
+     socket
+     |> push_event("store-player", %{id: player.id})
+     |> stream_insert(:players, player)}
   end
 end
