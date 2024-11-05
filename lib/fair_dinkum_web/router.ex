@@ -18,6 +18,7 @@ defmodule FairDinkumWeb.Router do
     pipe_through :browser
 
     live "/", LobbyLive, :index
+    live "/server/:server_name", GameLive, :index
   end
 
   # Other scopes may use custom stacks.
